@@ -18,4 +18,4 @@ COPY --chown=appuser:appgroup . .
 
 USER appuser
 
-CMD ["sh", "-c", "python main.py"]
+CMD ["python", "main.py"]
