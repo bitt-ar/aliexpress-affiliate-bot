@@ -60,11 +60,27 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send message when /start command is triggered."""
     await update.message.reply_text(WELCOME_MESSAGE)
 
+async def send_loading_sticker(update: Update):
+    if not LOADING_STICKER:
+        return None
+    try:
+        return await update.message.reply_sticker(LOADING_STICKER)
+    except Exception:
+        return None
+
+async def delete_loading_sticker(sticker_message):
+    if not sticker_message:
+        return
+    try:
+        await sticker_message.delete()
+    except Exception:
+        pass
+
 # Link handling function
 async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle AliExpress links sent by user."""
     # Send "Loading" sticker
-    sticker_message = await update.message.reply_sticker(LOADING_STICKER)
+    sticker_message = await send_loading_sticker(update)
     
     # Extract text from message (whether regular or forwarded)
     message_text = ""
@@ -74,7 +90,7 @@ async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_T
         message_text = update.message.caption
     
     if not message_text:
-        await sticker_message.delete()
+        await delete_loading_sticker(sticker_message)
         await update.message.reply_text("❌ No text found in message. Please send an AliExpress link. 🔍")
         return
     
@@ -83,7 +99,7 @@ async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_T
         product_ids = find_and_extract_id_from_aliexpress_links(message_text)
         
         if not product_ids:
-            await sticker_message.delete()
+            await delete_loading_sticker(sticker_message)
             await update.message.reply_text("❌ No valid AliExpress link found. Please check the link and try again. 🔍")
             return
         
@@ -130,7 +146,7 @@ async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_T
         
 
         if not product_info:
-            await sticker_message.delete()
+            await delete_loading_sticker(sticker_message)
             await update.message.reply_text(
                 text=affiliate_message,  # Use 'text' instead of 'caption'
                 reply_markup=keyboard,
@@ -142,7 +158,7 @@ async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_T
         elif product_info:
             # Check received data type
             if isinstance(product_info, tuple) and len(product_info) == 2:
-                await sticker_message.delete()
+                await delete_loading_sticker(sticker_message)
 
                 
                 # Second data type (product title and image URL)
@@ -199,7 +215,7 @@ async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_T
 
 
                 
-                await sticker_message.delete()
+                await delete_loading_sticker(sticker_message)
                 # Send main image with info
                 if hasattr(product, 'product_main_image_url'):
                     await update.message.reply_photo(
@@ -215,7 +231,7 @@ async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_T
     
     except Exception as e:
         # Delete loading sticker in case of error
-        await sticker_message.delete()
+        await delete_loading_sticker(sticker_message)
         await update.message.reply_text(f"❌ Error processing link: {str(e)}\n\nPlease check the link and try again. 🔄")
 
 # Main function
