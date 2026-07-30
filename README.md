@@ -1,7 +1,5 @@
 # AliExpress Affiliate Bot
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E41CVWBU)
-
 An English Telegram bot that helps users get AliExpress affiliate links and product information quickly from shared product URLs.
 
 ## Features
@@ -49,6 +47,25 @@ An English Telegram bot that helps users get AliExpress affiliate links and prod
 ## Notes
 - Make sure the link is valid and belongs to AliExpress
 - The bot will reply with product information and available affiliate offers
+
+## License
+You are granted a personal and limited license to use this software for your own projects or business purposes.
+
+## Restrictions
+You are not allowed to:
+
+- Resell, redistribute, or sublicense this source code.
+- Upload or publish the source code publicly.
+- Share the source code with third parties.
+- Claim ownership of the original code.
+- Sell modified or unchanged versions of this software.
+
+## Allowed Usage
+You may:
+
+- Use the software for your own Telegram bot.
+- Modify the code for your personal use.
+- Deploy and operate your own instance of the bot.
 
 ## Support
 If you want to support this project, you can donate here:
