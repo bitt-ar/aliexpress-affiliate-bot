@@ -166,7 +166,7 @@ async def handle_aliexpress_link(update: Update, context: ContextTypes.DEFAULT_T
                 
                 # Prepare info message with affiliate links
                 info_message = f"{clean_title(product_title)}\n\n"
-                info_message += " Switch to Canada country to get full commission discount\n\n "
+                info_message += " Here your deals :  \n\n "
                 
                 # Add affiliate links to info message
                 info_message += affiliate_message
